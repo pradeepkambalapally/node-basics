@@ -1,16 +1,30 @@
-const express = require('express');
-const products = require('../data/Products');
+
+const Product = require('../models/Product');
 
 
 
-const getAllProducts = (req, res) =>{
-    res.json(products);
+const getAllProducts = async (req, res) => {
+
+    try{
+        const products = await Product.find({});
+        res.status(200).json({
+        message : "Products retrieved successfully",
+        success : true,
+        data : products
+    }) 
+    }catch(e){
+        res.status(500).json({
+            message : "Failed to retrieve products",
+            success : false,
+            error : e.message
+        })  
+    }
 }
 
-const getProductById = (req, res) =>{
+const getProductById = async (req, res) => {
     const id = req.params.id;
-
-    const product = products.find((prod) => prod.id === parseInt(id));
+    
+    const product = await Product.findById(id);
 
     if(!product){
         return res.status(404).json({
@@ -25,33 +39,32 @@ const getProductById = (req, res) =>{
     })
 }
 
-const addProduct = (req, res) => {
+const addProduct = async (req, res) => {
     const {title, category, price, inStock} = req.body;
 
-    if(!title || !category || !price || inStock === undefined){
+    if (!title || !category || price === undefined || inStock === undefined){
         return res.status(400).json({
             message : "All fields are required",
             success : false
         })
   }
-  const newProduct = {
-    id : products.length + 1,
+  const newProduct = new Product({
     title,
     category,
     price,
     inStock
-  }
-  products.push(newProduct);
+  })
+  await newProduct.save();
   res.status(201).json({
     message : "Product added successfully",
     success : true,
     data : newProduct
   })
 }
-const updateProduct = (req, res) => {
+const updateProduct = async (req, res) => {
     const id = req.params.id;
     const {title, category, price, inStock} = req.body;
-    const product = products.find((prod) => prod.id === parseInt(id));
+    const product = await Product.findById(id);
 
     if(!product){
         return res.status(404).json({
@@ -63,23 +76,22 @@ const updateProduct = (req, res) => {
     if (category !== undefined) product.category = category;
     if (price !== undefined) product.price = price;
     if (inStock !== undefined) product.inStock = inStock;
+    await product.save();
     res.status(200).json({
         message : "Product updated successfully",
         success : true,
         data : product
     })
 }
-const deleteProduct = (req, res) => {
+const deleteProduct = async (req, res) => {
     const id = req.params.id;
-    const productIndex = products.findIndex((prod) => prod.id === parseInt(id));
-    if(productIndex === -1){
+    const product = await Product.findByIdAndDelete(id);
+    if(!product){
         return res.status(404).json({
             message : "Product not found",
             success : false
         })
     }
-    
-    products.splice(productIndex, 1);
     res.status(200).json({
         message : "Product deleted successfully",
         success : true

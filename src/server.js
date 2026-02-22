@@ -2,6 +2,9 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const productRoutes = require('./routes/product-routes');
+const connectToDB = require('./database/db');
+
+connectToDB();
 
 app.use(express.json());  
 
