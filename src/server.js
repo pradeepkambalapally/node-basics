@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const productRoutes = require('./routes/product-routes');
 const userRouter = require('./routes/user-routes');
+const imageRoutes = require('./routes/image-routes');
 const connectToDB = require('./database/db');
 
 connectToDB();
@@ -11,6 +12,7 @@ app.use(express.json());
 
 app.use('/products', productRoutes);
 app.use('/api/users', userRouter);
+app.use('/api/images', imageRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT,()=>{
