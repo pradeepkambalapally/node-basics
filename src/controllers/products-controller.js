@@ -1,27 +1,20 @@
 
 const Product = require('../models/Product');
 
+const asyncHandler = require('../utils/asyncHandler');
 
+const getAllProducts = asyncHandler(async (req, res) => {
 
-const getAllProducts = async (req, res) => {
-
-    try{
         const products = await Product.find({});
         res.status(200).json({
         message : "Products retrieved successfully",
         success : true,
         data : products
     }) 
-    }catch(e){
-        res.status(500).json({
-            message : "Failed to retrieve products",
-            success : false,
-            error : e.message
-        })  
-    }
-}
+    
+});
 
-const getProductById = async (req, res) => {
+const getProductById = asyncHandler(async (req, res) => {
     const id = req.params.id;
     
     const product = await Product.findById(id);
@@ -37,9 +30,9 @@ const getProductById = async (req, res) => {
         success : true,
         data : product
     })
-}
+});
 
-const addProduct = async (req, res) => {
+const addProduct = asyncHandler(async (req, res) => {
     const {title, category, price, inStock} = req.body;
 
     if (!title || !category || price === undefined || inStock === undefined){
@@ -60,8 +53,9 @@ const addProduct = async (req, res) => {
     success : true,
     data : newProduct
   })
-}
-const updateProduct = async (req, res) => {
+});
+
+const updateProduct = asyncHandler(async (req, res) => {
     const id = req.params.id;
     const {title, category, price, inStock} = req.body;
     const product = await Product.findById(id);
@@ -82,8 +76,9 @@ const updateProduct = async (req, res) => {
         success : true,
         data : product
     })
-}
-const deleteProduct = async (req, res) => {
+});
+
+const deleteProduct = asyncHandler(async (req, res) => {
     const id = req.params.id;
     const product = await Product.findByIdAndDelete(id);
     if(!product){
@@ -96,7 +91,8 @@ const deleteProduct = async (req, res) => {
         message : "Product deleted successfully",
         success : true
     })  
-}
+});
+
 module.exports = {
     getAllProducts,
     getProductById,

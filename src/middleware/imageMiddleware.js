@@ -10,8 +10,7 @@ const storage = multer.diskStorage({
     cb(null, 'src/images/');
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-    cb(null, file.fieldname + '-' + uniqueSuffix)
+   cb(null,Date.now() + path.extname(file.originalname))
   }
 })
 
@@ -26,7 +25,7 @@ const fileFilter =  (req, file, cb) => {
 }
 
 const uploadLimits = {
-    fileSize: 1024 * 1024 * 5, // 5MB
+    fileSize: 1024 * 1024 * 10, // 10MB
 
 }
 

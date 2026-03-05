@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const asyncHandler = require('../utils/asyncHandler');
 
-const register = async (req, res) => {
-    try{
-        const {username, password} = req.body;
+const register = asyncHandler(async (req, res) => {
+    const {username, password} = req.body;
 
     if(!username || !password){
         return res.status(401).json({
@@ -33,17 +33,10 @@ const register = async (req, res) => {
         success : true,
         data : newUser
     })
-    }catch(e){
-        res.status(500).json({
-            message : "Error registering user",
-            success : false,
-            error : e.message
-        })
-    }
-}
+    
+});
 
-const Login = async (req, res) => {
-    try{
+const Login = asyncHandler(async (req, res) => {
     const {username, password} = req.body;
     const user = await User.findOne({username});
 
@@ -74,14 +67,8 @@ const Login = async (req, res) => {
             token : token
         })
     })  
-    }catch(e){
-        res.status(500).json({
-            message : "Error logging in",
-            success : false,
-            error : e.message
-        })
-    }   
-}
+      
+});
 
 module.exports = {
     register,
