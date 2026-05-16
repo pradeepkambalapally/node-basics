@@ -1,6 +1,12 @@
 # NodeBase — Node.js Basics App
 
-A full-stack app built with **Node.js + Express + MongoDB** backend and a **React + Vite** frontend.
+A full-stack app with a **Node.js + Express + MongoDB** backend and a **React + Vite** frontend.
+
+```
+node-basics/
+├── server/       # Express API (Node.js backend)
+└── client/       # React frontend (Vite)
+```
 
 ## Features
 
@@ -30,6 +36,7 @@ cd node-basics
 ### 2. Backend Setup
 
 ```bash
+cd server
 npm install
 cp .env.example .env
 # Fill in your .env values
@@ -42,7 +49,6 @@ npm run dev
 cd client
 npm install
 cp .env.example .env
-# Set VITE_API_URL if needed
 npm run dev
 ```
 
@@ -78,6 +84,7 @@ npm run dev
 ## Environment Variables
 
 ```env
+# server/.env
 PORT=3000
 MONGO_URL=your_mongodb_connection_string
 JWT_SECRET_KEY=your_jwt_secret

@@ -1,9 +1,13 @@
-node_modules/
-.env
-src/images/*
-!src/images/.gitkeep
+# Backend
+server/node_modules/
+server/.env
+server/src/images/*
+!server/src/images/.gitkeep
 
-# client
+# Frontend
 client/node_modules/
 client/dist/
 client/.env
+
+# Root
+node_modules/
