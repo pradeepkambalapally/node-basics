@@ -1,3 +1,9 @@
 node_modules/
-.env 
-src/images/
+.env
+src/images/*
+!src/images/.gitkeep
+
+# client
+client/node_modules/
+client/dist/
+client/.env
